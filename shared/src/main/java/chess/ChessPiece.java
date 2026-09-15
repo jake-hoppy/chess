@@ -56,91 +56,40 @@ public class ChessPiece {
         List<ChessMove> moves = new ArrayList<>();
         // BISHOP
         if (type == PieceType.BISHOP){
-            int row = myPosition.getRow();
-            int col = myPosition.getColumn();
 
-            //while loop incrementing checking each diagonal position and whether the bishop can move there.
-            while(true){
-                row = row +1;
-                col = col +1;
+            int[][] directions = {
+                    {1,1},
+                    {1,-1},
+                    {-1,1},
+                    {-1,-1},
+            };
 
-                if (row < 1 || row > 8 || col < 1 || col > 8) {
-                    break;
-                }
-                ChessPosition spot = new ChessPosition(row,col);
-                ChessPiece pieceThere = board.getPiece(spot);
+            for (int i=0; i<directions.length; i++){
 
-                if (pieceThere == null){
-                    moves.add(new ChessMove(myPosition,spot,null));
-                } else if(pieceThere.getTeamColor() == pieceColor){
-                    break;
-                } else {
-                    moves.add(new ChessMove(myPosition,spot,null));
-                    break;
-                }
-            }
+                int rowChange = directions[i][0];
+                int colChange = directions[i][1];
 
-            row = myPosition.getRow();
-            col = myPosition.getColumn();
-            while(true){
-                row = row -1;
-                col = col +1;
+                int row = myPosition.getRow();
+                int col = myPosition.getColumn();
 
-                if (row < 1 || row > 8 || col < 1 || col > 8) {
-                    break;
-                }
-                ChessPosition spot = new ChessPosition(row,col);
-                ChessPiece pieceThere = board.getPiece(spot);
+                while(true){
+                    row = row + rowChange;
+                    col = col + colChange;
 
-                if (pieceThere == null){
-                    moves.add(new ChessMove(myPosition,spot,null));
-                } else if(pieceThere.getTeamColor() == pieceColor){
-                    break;
-                } else {
-                    moves.add(new ChessMove(myPosition,spot,null));
-                    break;
-                }
-            }
-            row = myPosition.getRow();
-            col = myPosition.getColumn();
-            while(true){
-                row = row +1;
-                col = col -1;
+                    if (row < 1 || row > 8 || col < 1 || col > 8) {
+                        break;
+                    }
+                    ChessPosition spot = new ChessPosition(row,col);
+                    ChessPiece pieceThere = board.getPiece(spot);
 
-                if (row < 1 || row > 8 || col < 1 || col > 8) {
-                    break;
-                }
-                ChessPosition spot = new ChessPosition(row,col);
-                ChessPiece pieceThere = board.getPiece(spot);
-
-                if (pieceThere == null){
-                    moves.add(new ChessMove(myPosition,spot,null));
-                } else if(pieceThere.getTeamColor() == pieceColor){
-                    break;
-                } else {
-                    moves.add(new ChessMove(myPosition,spot,null));
-                    break;
-                }
-            }
-            row = myPosition.getRow();
-            col = myPosition.getColumn();
-            while(true){
-                row = row -1;
-                col = col -1;
-
-                if (row < 1 || row > 8 || col < 1 || col > 8) {
-                    break;
-                }
-                ChessPosition spot = new ChessPosition(row,col);
-                ChessPiece pieceThere = board.getPiece(spot);
-
-                if (pieceThere == null){
-                    moves.add(new ChessMove(myPosition,spot,null));
-                } else if(pieceThere.getTeamColor() == pieceColor){
-                    break;
-                } else {
-                    moves.add(new ChessMove(myPosition,spot,null));
-                    break;
+                    if (pieceThere == null){
+                        moves.add(new ChessMove(myPosition,spot,null));
+                    } else if(pieceThere.getTeamColor() == pieceColor){
+                        break;
+                    } else {
+                        moves.add(new ChessMove(myPosition,spot,null));
+                        break;
+                    }
                 }
             }
         }
