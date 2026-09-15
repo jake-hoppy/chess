@@ -59,6 +59,17 @@ public class ChessBoard {
         for (int col=1; col<=8; col++){
             addPiece(new ChessPosition(7,col), new ChessPiece(ChessGame.TeamColor.BLACK,ChessPiece.PieceType.PAWN));
         }
+        //building a backrow list that the next thing can call instead of 8 new ChessPiece() calls for each piece type
+        ChessPiece.PieceType[] backRank = {
+                ChessPiece.PieceType.ROOK,
+                ChessPiece.PieceType.KNIGHT,
+                ChessPiece.PieceType.BISHOP,
+                ChessPiece.PieceType.QUEEN,
+                ChessPiece.PieceType.KING,
+                ChessPiece.PieceType.BISHOP,
+                ChessPiece.PieceType.KNIGHT,
+                ChessPiece.PieceType.ROOK,
+        };
 
     }
 
