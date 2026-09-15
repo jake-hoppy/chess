@@ -70,6 +70,14 @@ public class ChessBoard {
                 ChessPiece.PieceType.KNIGHT,
                 ChessPiece.PieceType.ROOK,
         };
+        //iteration to add the backRank for the white side of the board
+        for (int i = 0; i < backRank.length; i++) {
+            addPiece(new ChessPosition(1, i + 1), new ChessPiece(ChessGame.TeamColor.WHITE, backRank[i]));
+        }
+        //iteration to add the backRank for the black side of the board
+        for (int i = 0; i < backRank.length; i++) {
+            addPiece(new ChessPosition(8, i + 1), new ChessPiece(ChessGame.TeamColor.BLACK, backRank[i]));
+        }
 
     }
 
