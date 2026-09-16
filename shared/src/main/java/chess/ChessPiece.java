@@ -52,6 +52,35 @@ public class ChessPiece {
         }
         return moves;
     }
+    private Collection<ChessMove> singleStepMoves (ChessBoard board, ChessPosition myPosition, int[][] spots){
+        List<ChessMove> moves = new ArrayList<>();
+        for (int i=0; i<spots.length; i++){
+            int rowChange = spots[i][0];
+            int colChange = spots[i][1];
+
+            int row = myPosition.getRow();
+            int col = myPosition.getColumn();
+
+            row = row + rowChange;
+            col = col + colChange;
+
+            if (row < 1 || row > 8 || col < 1 || col > 8) {
+                continue;
+            }
+            ChessPosition spot = new ChessPosition(row,col);
+            ChessPiece pieceThere = board.getPiece(spot);
+
+            if (pieceThere == null){
+                moves.add(new ChessMove(myPosition, spot, null));
+            } else if ((pieceThere.getTeamColor() == pieceColor)){
+                continue;
+            } else {
+                moves.add(new ChessMove(myPosition, spot, null));
+                continue;
+            }
+        }
+        return moves;
+    }
     /**
      * The various different chess piece options
      */
