@@ -20,6 +20,38 @@ public class ChessPiece {
         this.pieceColor = pieceColor;
         this.type = type;
     }
+    private Collection<ChessMove> slidingMoves(ChessBoard board, ChessPosition myPosition, int[][] directions){
+        List<ChessMove> moves = new ArrayList<>();
+        for (int i=0; i<directions.length; i++){
+
+            int rowChange = directions[i][0];
+            int colChange = directions[i][1];
+
+            int row = myPosition.getRow();
+            int col = myPosition.getColumn();
+
+            while(true){
+                row = row + rowChange;
+                col = col + colChange;
+
+                if (row < 1 || row > 8 || col < 1 || col > 8) {
+                    break;
+                }
+                ChessPosition spot = new ChessPosition(row,col);
+                ChessPiece pieceThere = board.getPiece(spot);
+
+                if (pieceThere == null){
+                    moves.add(new ChessMove(myPosition,spot,null));
+                } else if(pieceThere.getTeamColor() == pieceColor){
+                    break;
+                } else {
+                    moves.add(new ChessMove(myPosition,spot,null));
+                    break;
+                }
+            }
+        }
+        return moves;
+    }
     /**
      * The various different chess piece options
      */
@@ -56,44 +88,9 @@ public class ChessPiece {
         List<ChessMove> moves = new ArrayList<>();
         // BISHOP
         if (type == PieceType.BISHOP){
-
-            int[][] directions = {
-                    {1,1},
-                    {1,-1},
-                    {-1,1},
-                    {-1,-1},
-            };
-
-            for (int i=0; i<directions.length; i++){
-
-                int rowChange = directions[i][0];
-                int colChange = directions[i][1];
-
-                int row = myPosition.getRow();
-                int col = myPosition.getColumn();
-
-                while(true){
-                    row = row + rowChange;
-                    col = col + colChange;
-
-                    if (row < 1 || row > 8 || col < 1 || col > 8) {
-                        break;
-                    }
-                    ChessPosition spot = new ChessPosition(row,col);
-                    ChessPiece pieceThere = board.getPiece(spot);
-
-                    if (pieceThere == null){
-                        moves.add(new ChessMove(myPosition,spot,null));
-                    } else if(pieceThere.getTeamColor() == pieceColor){
-                        break;
-                    } else {
-                        moves.add(new ChessMove(myPosition,spot,null));
-                        break;
-                    }
-                }
-            }
+            return slidingMoves(board, myPosition, new int[][]{{1,1},{1,-1},{-1,1},{-1,-1}});
         }
-        return moves;
+        return new ArrayList<>();
     }
 
     @Override
