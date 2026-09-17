@@ -186,7 +186,7 @@ public class ChessPiece {
             return singleStepMoves(board, myPosition, new int[][]{{2,1},{1,2},{-2,1},{-1,2},{-1,-2},{-2,-1},{2,-1},{1,-2}});
         }
         if (type == PieceType.PAWN){
-
+            return pawnMoves(board, myPosition);
         }
         return new ArrayList<>();
     }
