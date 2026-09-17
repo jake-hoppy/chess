@@ -81,6 +81,19 @@ public class ChessPiece {
         }
         return moves;
     }
+    private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition){
+        List<ChessMove> moves = new ArrayList<>();
+        if (pieceColor == ChessGame.TeamColor.WHITE){
+            int direction = 1;
+            int startRow = 2;
+            int promotionRow = 8;
+        } else {
+            int direction = -1;
+            int startRow = 7;
+            int promotionRow = 1;
+        }
+        return moves;
+    }
     /**
      * The various different chess piece options
      */
@@ -130,6 +143,9 @@ public class ChessPiece {
         }
         if (type == PieceType.KNIGHT){
             return singleStepMoves(board, myPosition, new int[][]{{2,1},{1,2},{-2,1},{-1,2},{-1,-2},{-2,-1},{2,-1},{1,-2}});
+        }
+        if (type == PieceType.PAWN){
+
         }
         return new ArrayList<>();
     }
