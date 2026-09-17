@@ -83,14 +83,35 @@ public class ChessPiece {
     }
     private Collection<ChessMove> pawnMoves(ChessBoard board, ChessPosition myPosition){
         List<ChessMove> moves = new ArrayList<>();
+        int direction;
+        int startRow;
+        int promotionRow;
         if (pieceColor == ChessGame.TeamColor.WHITE){
-            int direction = 1;
-            int startRow = 2;
-            int promotionRow = 8;
+            direction = 1;
+            startRow = 2;
+            promotionRow = 8;
         } else {
-            int direction = -1;
-            int startRow = 7;
-            int promotionRow = 1;
+            direction = -1;
+            startRow = 7;
+            promotionRow = 1;
+        }
+        int col = myPosition.getColumn();
+        int row = myPosition.getRow();
+
+        row = row + direction;
+
+        if (row >= 1 && row <= 8) {
+            ChessPosition ahead = new ChessPosition(row,col);
+            if (board.getPiece(ahead) == null){
+                if (row == promotionRow){
+                    moves.add(new ChessMove(myPosition, ahead, PieceType.QUEEN));
+                    moves.add(new ChessMove(myPosition, ahead, PieceType.ROOK));
+                    moves.add(new ChessMove(myPosition, ahead, PieceType.BISHOP));
+                    moves.add(new ChessMove(myPosition, ahead, PieceType.KNIGHT));
+                }else{
+                    moves.add(new ChessMove(myPosition, ahead, null));
+                }
+            }
         }
         return moves;
     }
