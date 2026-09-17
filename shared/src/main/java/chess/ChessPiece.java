@@ -102,6 +102,7 @@ public class ChessPiece {
 
         if (row >= 1 && row <= 8) {
             ChessPosition ahead = new ChessPosition(row,col);
+            ChessPosition twoAhead = new ChessPosition(row + direction, col);
             if (board.getPiece(ahead) == null){
                 if (row == promotionRow){
                     moves.add(new ChessMove(myPosition, ahead, PieceType.QUEEN));
@@ -109,7 +110,12 @@ public class ChessPiece {
                     moves.add(new ChessMove(myPosition, ahead, PieceType.BISHOP));
                     moves.add(new ChessMove(myPosition, ahead, PieceType.KNIGHT));
                 }else{
-                    moves.add(new ChessMove(myPosition, ahead, null));
+                    if (board.getPiece(ahead) == null){
+                        moves.add(new ChessMove(myPosition, ahead, null));
+                    }
+                    if (myPosition.getRow() == startRow){
+                        moves.add(new ChessMove(myPosition, twoAhead,null));
+                    }
                 }
             }
         }
