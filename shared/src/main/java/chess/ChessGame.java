@@ -95,6 +95,11 @@ public class ChessGame {
             board.addPiece(end, piece);
         }
         board.addPiece(start, null);
+        if (teamTurn == TeamColor.BLACK){
+            teamTurn = TeamColor.WHITE;
+        } else {
+            teamTurn = TeamColor.BLACK;
+        }
     }
 
     /**
