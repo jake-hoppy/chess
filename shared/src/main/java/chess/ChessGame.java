@@ -101,6 +101,18 @@ public class ChessGame {
             teamTurn = TeamColor.BLACK;
         }
     }
+    private boolean hasAnyValidMoves (TeamColor teamColor){
+        for (int i=1; i<=8; i++){
+            for (int j=1; j<=8; j++){
+                ChessPosition square = new ChessPosition(i,j);
+                ChessPiece piece = board.getPiece(square);
+                if(piece != null && piece.getTeamColor() == teamColor && !validMoves(square).isEmpty()){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Determines if the given team is in check
