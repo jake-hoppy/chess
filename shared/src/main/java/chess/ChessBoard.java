@@ -11,6 +11,14 @@ import java.util.Objects;
  */
 public class ChessBoard {
     private final ChessPiece[][] squares = new ChessPiece[8][8];
+    public ChessBoard(ChessBoard other){
+        for (int i=1; i<=8; i++){
+            for (int j=1; j<=8; j++){
+                ChessPosition copySpot = new ChessPosition(i,j);
+                 addPiece(copySpot, other.getPiece(copySpot));
+            }
+        }
+    }
     public ChessBoard() {
         
     }

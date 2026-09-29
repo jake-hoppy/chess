@@ -71,7 +71,23 @@ public class ChessGame {
      * @return True if the specified team is in check
      */
     public boolean isInCheck(TeamColor teamColor) {
-        ChessPosition kingPosition = findKing(teamColor);
+        return isInCheckOnBoard(teamColor, board);
+    }
+
+    private ChessPosition findKing(TeamColor teamColor, ChessBoard board) {
+        for (int i=1; i<=8; i++){
+            for (int j=1; j<=8; j++){
+                ChessPosition square = new ChessPosition(i,j);
+                ChessPiece piece = board.getPiece(square);
+                if(piece != null && ChessPiece.PieceType.KING == piece.getPieceType() && piece.getTeamColor() == teamColor){
+                    return square;
+                }
+            }
+        }
+        return null;
+    }
+    private boolean isInCheckOnBoard(TeamColor teamColor, ChessBoard board){
+        ChessPosition kingPosition = findKing(teamColor,board);
         for (int i=1; i<=8; i++){
             for (int j=1; j<=8; j++){
                 ChessPosition square = new ChessPosition(i,j);
@@ -87,19 +103,6 @@ public class ChessGame {
             }
         }
         return false;
-    }
-
-    private ChessPosition findKing(TeamColor teamColor) {
-        for (int i=1; i<=8; i++){
-            for (int j=1; j<=8; j++){
-                ChessPosition square = new ChessPosition(i,j);
-                ChessPiece piece = board.getPiece(square);
-                if(piece != null && ChessPiece.PieceType.KING == piece.getPieceType() && piece.getTeamColor() == teamColor){
-                    return square;
-                }
-            }
-        }
-        return null;
     }
     /**
      * Determines if the given team is in checkmate
