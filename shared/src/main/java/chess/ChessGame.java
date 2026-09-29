@@ -88,6 +88,13 @@ public class ChessGame {
         if (!validMoves(start).contains(move)){
             throw new InvalidMoveException("Illegal move");
         }
+        ChessPosition end = move.getEndPosition();
+        if (move.getPromotionPiece() != null) {
+            board.addPiece(end, new ChessPiece(piece.getTeamColor(), move.getPromotionPiece()));
+        } else {
+            board.addPiece(end, piece);
+        }
+        board.addPiece(start, null);
     }
 
     /**
