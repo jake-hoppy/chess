@@ -143,14 +143,19 @@ public class ChessGame {
             for (int j=1; j<=8; j++){
                 ChessPosition square = new ChessPosition(i,j);
                 ChessPiece piece = board.getPiece(square);
-                if (piece != null && piece.getTeamColor() != teamColor) {
-                    Collection<ChessMove> moves = piece.pieceMoves(board, square);
-                    for (ChessMove move : moves) {
-                        if (move.getEndPosition().equals(kingPosition)) {
-                            return true;
-                        }
-                    }
+                if (piece != null && piece.getTeamColor() != teamColor
+                        && canAttack(piece, board, square, kingPosition)) {
+                    return true;
                 }
+            }
+        }
+        return false;
+    }
+
+    private boolean canAttack(ChessPiece piece, ChessBoard board, ChessPosition from, ChessPosition target) {
+        for (ChessMove move : piece.pieceMoves(board, from)) {
+            if (move.getEndPosition().equals(target)) {
+                return true;
             }
         }
         return false;
