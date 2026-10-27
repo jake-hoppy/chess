@@ -17,4 +17,16 @@ public class UserHandler {
         RegisterResult result = userService.register(req);
         ctx.status(200).result(gson.toJson(result));
     }
+
+    public void login(Context ctx) throws Exception {
+        LoginRequest req = gson.fromJson(ctx.body(), LoginRequest.class);
+        LoginResult result = userService.login(req);
+        ctx.status(200).result(gson.toJson(result));
+    }
+
+    public void logout(Context ctx) throws Exception {
+        String authToken = ctx.header("authorization");
+        userService.logout(authToken);
+        ctx.status(200).result("{}");
+    }
 }
