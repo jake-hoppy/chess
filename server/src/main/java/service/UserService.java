@@ -29,4 +29,27 @@ public class UserService {
 
         return new RegisterResult(req.username(), token);
     }
+    public LoginResult login(LoginRequest req)
+            throws BadRequestException, UnauthorizedException, DataAccessException {
+        if (req == null || req.username() == null || req.password() == null) {
+            throw new BadRequestException("Error: bad request");
+        }
+
+        UserData user = userDAO.getUser(req.username());
+        if (user == null || !user.password().equals(req.password())) {
+            throw new UnauthorizedException("Error: unauthorized");
+        }
+
+        String token = UUID.randomUUID().toString();
+        authDAO.createAuth(new AuthData(token, user.username()));
+
+        return new LoginResult(user.username(), token);
+    }
+
+    public void logout(String authToken) throws UnauthorizedException, DataAccessException {
+        if (authToken == null || authDAO.getAuth(authToken) == null) {
+            throw new UnauthorizedException("Error: unauthorized");
+        }
+        authDAO.deleteAuth(authToken);
+    }
 }
