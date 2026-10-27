@@ -18,6 +18,8 @@ public class Server {
 
         ClearService clearService = new ClearService(userDAO, authDAO, gameDAO);
         UserService userService = new UserService(userDAO, authDAO);
+        GameService gameService = new GameService(gameDAO, authDAO);
+        GameHandler gameHandler = new GameHandler(gameService);
 
         UserHandler userHandler = new UserHandler(userService);
 
@@ -31,6 +33,9 @@ public class Server {
         javalin.post("/user", userHandler::register);
         javalin.post("/session", userHandler::login);
         javalin.delete("/session", userHandler::logout);
+        javalin.get("/game", gameHandler::listGames);
+        javalin.post("/game", gameHandler::createGame);
+        javalin.put("/game", gameHandler::joinGame);
 
         // Turn exceptions into HTTP status codes
         javalin.exception(BadRequestException.class, (e, ctx) -> sendError(ctx, 400, e.getMessage()));
