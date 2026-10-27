@@ -53,7 +53,7 @@ public class ChessBoard {
      * (How the game of chess normally starts)
      */
     public void resetBoard() {
-        // clears the board through iteration (this can also be done if I take out the "final" when declaring the variable and just declare the variable again
+        // clears the board by setting every square to null
         for (int i=0; i<8; i++){
             for (int j=0; j<8; j++){
                 squares[i][j] = null;

@@ -125,7 +125,9 @@ public class ChessPiece {
             }
 
             for (int newCol : new int[]{col - 1, col + 1}) {
-                if (newCol < 1 || newCol > 8) continue;
+                if (newCol < 1 || newCol > 8) {
+                    continue;
+                }
                 ChessPosition target = new ChessPosition(row, newCol);
                 ChessPiece occupant = board.getPiece(target);
                 if (occupant != null && occupant.getTeamColor() != pieceColor) {
