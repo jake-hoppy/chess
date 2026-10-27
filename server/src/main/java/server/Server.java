@@ -29,6 +29,8 @@ public class Server {
             ctx.status(200).result("{}");
         });
         javalin.post("/user", userHandler::register);
+        javalin.post("/session", userHandler::login);
+        javalin.delete("/session", userHandler::logout);
 
         // Turn exceptions into HTTP status codes
         javalin.exception(BadRequestException.class, (e, ctx) -> sendError(ctx, 400, e.getMessage()));
