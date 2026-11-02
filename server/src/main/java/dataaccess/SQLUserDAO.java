@@ -61,4 +61,15 @@ public class SQLAuthDAO implements AuthDAO{
             throw new DataAccessException("Error: authToken doesnt exist", e);
         }
     }
+
+    @Override
+    public void clear() throws DataAccessException {
+        String sql = "TRUNCATE TABLE auth";
+        try (var conn = DatabaseManager.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            throw new DataAccessException("Error: unable to clear table", e);
+        }
+    }
 }
