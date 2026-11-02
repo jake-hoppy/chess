@@ -1,6 +1,5 @@
 package dataaccess;
 
-import model.AuthData;
 import model.UserData;
 import java.sql.SQLException;
 
@@ -44,7 +43,8 @@ public class SQLUserDAO implements UserDAO {
             stmt.setString(1,username);
             try (var rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new UserData(rs.getString("username"), rs.getString("password"), rs.getString("email"));
+                    return new UserData(rs.getString("username"),
+                            rs.getString("password"), rs.getString("email"));
                 }
                 return null;
             }
