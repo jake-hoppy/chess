@@ -1,4 +1,6 @@
-package dataaccess;
+package dataaccess.sql;
+
+import dataaccess.*;
 
 import model.AuthData;
 import java.sql.SQLException;
