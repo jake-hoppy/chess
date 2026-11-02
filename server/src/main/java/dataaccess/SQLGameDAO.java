@@ -1,9 +1,11 @@
 package dataaccess;
 
-import java.sql.SQLException;
-import java.sql.Statement;
 import chess.ChessGame;
 import com.google.gson.Gson;
+import model.GameData;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class SQLGameDAO implements GameDAO {
@@ -54,5 +56,14 @@ public class SQLGameDAO implements GameDAO {
         } catch (SQLException e) {
             throw new DataAccessException("Error: unable to create game", e);
         }
+    }
+
+    private GameData readGame(ResultSet rs) throws SQLException {
+        return new GameData(
+                rs.getInt("gameID"),
+                rs.getString("whiteUsername"),
+                rs.getString("blackUsername"),
+                rs.getString("gameName"),
+                gson.fromJson(rs.getString("game"), ChessGame.class));
     }
 }
