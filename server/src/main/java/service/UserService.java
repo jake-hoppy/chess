@@ -3,6 +3,7 @@ package service;
 import dataaccess.*;
 import model.*;
 import java.util.UUID;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserService {
     private final UserDAO userDAO;
@@ -22,7 +23,8 @@ public class UserService {
             throw new AlreadyTakenException("Error: already taken");
         }
 
-        userDAO.createUser(new UserData(req.username(), req.password(), req.email()));
+        String hashed = BCrypt.hashpw(req.password(), BCrypt.gensalt());
+        userDAO.createUser(new UserData(req.username(), hashed, req.email()));
 
         String token = UUID.randomUUID().toString();
         authDAO.createAuth(new AuthData(token, req.username()));
