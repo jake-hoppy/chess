@@ -7,6 +7,8 @@ import model.GameData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class SQLGameDAO implements GameDAO {
     private final Gson gson = new Gson();
@@ -70,6 +72,21 @@ public class SQLGameDAO implements GameDAO {
         } catch (SQLException e) {
             throw new DataAccessException("Error: unable to read game", e);
         }
+    }
+
+    @Override
+    public Collection<GameData> listGames() throws DataAccessException {
+        var games = new ArrayList<GameData>();
+        try (var conn = DatabaseManager.getConnection();
+             var stmt = conn.prepareStatement("SELECT * FROM game");
+             var rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                games.add(readGame(rs));
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error: unable to list games", e);
+        }
+        return games;
     }
 
     private GameData readGame(ResultSet rs) throws SQLException {
