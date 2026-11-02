@@ -38,7 +38,7 @@ public class UserService {
         }
 
         UserData user = userDAO.getUser(req.username());
-        if (user == null || !user.password().equals(req.password())) {
+        if (user == null || !BCrypt.checkpw(req.password(), user.password())) {
             throw new UnauthorizedException("Error: unauthorized");
         }
 
