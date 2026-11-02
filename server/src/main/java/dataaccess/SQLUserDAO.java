@@ -20,4 +20,18 @@ public class SQLUserDAO implements UserDAO {
             throw new DataAccessException("Error: unable to make user table", e);
         }
     }
+
+    @Override
+    public void createUser(UserData user) throws DataAccessException {
+        String sql = "INSERT INTO user (username, password, email) VALUES (?,?,?)";
+        try (var conn = DatabaseManager.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1,user.username());
+            stmt.setString(2,user.password());
+            stmt.setString(3,user.email());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccessException("Error: unable to update values", e);
+        }
+    }
 }
