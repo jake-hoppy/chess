@@ -58,6 +58,20 @@ public class SQLGameDAO implements GameDAO {
         }
     }
 
+    @Override
+    public GameData getGame(int gameID) throws DataAccessException {
+        String sql = "SELECT * FROM game WHERE gameID = ?";
+        try (var conn = DatabaseManager.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, gameID);
+            try (var rs = stmt.executeQuery()) {
+                return rs.next() ? readGame(rs) : null;
+            }
+        } catch (SQLException e) {
+            throw new DataAccessException("Error: unable to read game", e);
+        }
+    }
+
     private GameData readGame(ResultSet rs) throws SQLException {
         return new GameData(
                 rs.getInt("gameID"),
