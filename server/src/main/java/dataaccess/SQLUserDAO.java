@@ -52,4 +52,15 @@ public class SQLUserDAO implements UserDAO {
             throw new DataAccessException("Error: unable to read user", e);
         }
     }
+
+    @Override
+    public void clear() throws DataAccessException {
+        String sql = "TRUNCATE TABLE user";
+        try (var conn = DatabaseManager.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e){
+            throw new DataAccessException("Error: unable to clear table", e);
+        }
+    }
 }
