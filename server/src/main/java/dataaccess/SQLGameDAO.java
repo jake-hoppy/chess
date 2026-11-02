@@ -15,5 +15,11 @@ public class SQLGameDAO implements GameDAO {
         game LONGTEXT NOT NULL,
         PRIMARY KEY (gameID)
         )""";
+        try (var conn = DatabaseManager.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccessException("Error: unable to make game table", e);
+        }
     }
 }
