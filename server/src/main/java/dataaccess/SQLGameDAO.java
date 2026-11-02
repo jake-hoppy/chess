@@ -22,4 +22,14 @@ public class SQLGameDAO implements GameDAO {
             throw new DataAccessException("Error: unable to make game table", e);
         }
     }
+    @Override
+    public void clear() throws DataAccessException {
+        String sql = "TRUNCATE TABLE game";
+        try (var conn = DatabaseManager.getConnection();
+             var stmt = conn.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new DataAccessException("Error: unable to clear game table", e);
+        }
+    }
 }
