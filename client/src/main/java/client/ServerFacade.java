@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Collection;
 
 /**
  * Wraps every HTTP endpoint of the chess server in a plain Java method,
@@ -40,6 +41,20 @@ public class ServerFacade {
 
     public void logout(String authToken) throws ResponseException {
         makeRequest("DELETE", "/session", null, authToken, null);
+    }
+
+    public int createGame(String authToken, String gameName) throws ResponseException {
+        var request = new CreateGameRequest(gameName);
+        return makeRequest("POST", "/game", request, authToken, CreateGameResult.class).gameID();
+    }
+
+    public Collection<GameData> listGames(String authToken) throws ResponseException {
+        return makeRequest("GET", "/game", null, authToken, ListGamesResult.class).games();
+    }
+
+    public void joinGame(String authToken, String playerColor, int gameID) throws ResponseException {
+        var request = new JoinGameRequest(playerColor, gameID);
+        makeRequest("PUT", "/game", request, authToken, null);
     }
 
     public void clear() throws ResponseException {
