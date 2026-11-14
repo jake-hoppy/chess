@@ -28,6 +28,20 @@ public class ServerFacade {
         this.serverUrl = serverUrl;
     }
 
+    public RegisterResult register(String username, String password, String email) throws ResponseException {
+        var request = new RegisterRequest(username, password, email);
+        return makeRequest("POST", "/user", request, null, RegisterResult.class);
+    }
+
+    public LoginResult login(String username, String password) throws ResponseException {
+        var request = new LoginRequest(username, password);
+        return makeRequest("POST", "/session", request, null, LoginResult.class);
+    }
+
+    public void logout(String authToken) throws ResponseException {
+        makeRequest("DELETE", "/session", null, authToken, null);
+    }
+
     public void clear() throws ResponseException {
         makeRequest("DELETE", "/db", null, null, null);
     }
