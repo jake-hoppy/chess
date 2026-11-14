@@ -1,5 +1,7 @@
 package service;
 
+import model.*;
+
 import dataaccess.*;
 import model.UserData;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +47,7 @@ public class UserServiceTest {
 
     @Test
     public void loginSuccess() throws Exception {
-        userDAO.createUser(new UserData("hoppy", "pw", "h@byu.edu"));
+        userService.register(new RegisterRequest("hoppy", "pw", "h@byu.edu"));
 
         LoginResult result = userService.login(new LoginRequest("hoppy", "pw"));
 
@@ -55,7 +57,7 @@ public class UserServiceTest {
 
     @Test
     public void loginWrongPassword() throws Exception {
-        userDAO.createUser(new UserData("hoppy", "pw", "h@byu.edu"));
+        userService.register(new RegisterRequest("hoppy", "pw", "h@byu.edu"));
 
         assertThrows(UnauthorizedException.class,
                 () -> userService.login(new LoginRequest("hoppy", "wrong")));

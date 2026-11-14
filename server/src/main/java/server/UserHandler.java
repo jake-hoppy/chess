@@ -3,6 +3,7 @@ package server;
 import com.google.gson.Gson;
 import io.javalin.http.Context;
 import service.*;
+import model.*;
 
 public class UserHandler {
     private final UserService userService;
