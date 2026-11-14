@@ -1,7 +1,10 @@
 package client;
 
+import model.GameData;
 import org.junit.jupiter.api.*;
 import server.Server;
+
+import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -88,6 +91,59 @@ public class ServerFacadeTests {
     void logoutBadToken() {
         var ex = assertThrows(ResponseException.class, () -> facade.logout("not-a-real-token"));
         assertEquals(401, ex.statusCode());
+    }
+
+    // createGame
+
+    @Test
+    void createGameSuccess() throws ResponseException {
+        String auth = registerPlayer();
+        int gameID = facade.createGame(auth, "my game");
+        assertTrue(gameID > 0);
+    }
+
+    @Test
+    void createGameBadToken() {
+        var ex = assertThrows(ResponseException.class, () -> facade.createGame("bad-token", "my game"));
+        assertEquals(401, ex.statusCode());
+    }
+
+    // listGames
+
+    @Test
+    void listGamesSuccess() throws ResponseException {
+        String auth = registerPlayer();
+        facade.createGame(auth, "game one");
+        facade.createGame(auth, "game two");
+        Collection<GameData> games = facade.listGames(auth);
+        assertEquals(2, games.size());
+    }
+
+    @Test
+    void listGamesBadToken() {
+        var ex = assertThrows(ResponseException.class, () -> facade.listGames("bad-token"));
+        assertEquals(401, ex.statusCode());
+    }
+
+    // joinGame
+
+    @Test
+    void joinGameSuccess() throws ResponseException {
+        String auth = registerPlayer();
+        int gameID = facade.createGame(auth, "my game");
+        facade.joinGame(auth, "WHITE", gameID);
+        GameData game = facade.listGames(auth).iterator().next();
+        assertEquals("player1", game.whiteUsername());
+    }
+
+    @Test
+    void joinGameColorTaken() throws ResponseException {
+        String auth = registerPlayer();
+        int gameID = facade.createGame(auth, "my game");
+        facade.joinGame(auth, "WHITE", gameID);
+        String otherAuth = facade.register("player2", "password", "p2@email.com").authToken();
+        var ex = assertThrows(ResponseException.class, () -> facade.joinGame(otherAuth, "WHITE", gameID));
+        assertEquals(403, ex.statusCode());
     }
 
     // clear
