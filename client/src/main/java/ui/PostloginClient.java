@@ -129,7 +129,8 @@ public class PostloginClient {
             }
             return errorMessage(e, "Joining the game");
         }
-        return "Joined \"" + game.gameName() + "\" as " + color + ".\n";
+        return "Joined \"" + game.gameName() + "\" as " + color + ".\n"
+                + startingBoard(ChessGame.TeamColor.valueOf(color));
     }
 
     private String observe(String[] tokens) {
@@ -140,7 +141,8 @@ public class PostloginClient {
         if (game == null) {
             return badNumberMessage();
         }
-        return "Observing \"" + game.gameName() + "\".\n";
+        return "Observing \"" + game.gameName() + "\".\n"
+                + startingBoard(ChessGame.TeamColor.WHITE);
     }
 
     private GameData gameFromNumber(String text) {
