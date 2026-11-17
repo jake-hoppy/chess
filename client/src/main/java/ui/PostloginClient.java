@@ -104,4 +104,57 @@ public class PostloginClient {
             default -> action + " failed. Please try again.\n";
         };
     }
+
+    private String play(String[] tokens) {
+        if (tokens.length != 3) {
+            return "Usage: play <NUMBER> <WHITE|BLACK>\n";
+        }
+        GameData game = gameFromNumber(tokens[1]);
+        if (game == null) {
+            return badNumberMessage();
+        }
+        String color = tokens[2].toUpperCase();
+        if (!color.equals("WHITE") && !color.equals("BLACK")) {
+            return "Color must be WHITE or BLACK.\n";
+        }
+        try {
+            facade.joinGame(authToken, color, game.gameID());
+        } catch (ResponseException e) {
+            if (e.statusCode() == 403) {
+                return "That color is already taken in this game.\n";
+            }
+            return errorMessage(e, "Joining the game");
+        }
+        return "Joined \"" + game.gameName() + "\" as " + color + ".\n";
+    }
+
+    private String observe(String[] tokens) {
+        if (tokens.length != 2) {
+            return "Usage: observe <NUMBER>\n";
+        }
+        GameData game = gameFromNumber(tokens[1]);
+        if (game == null) {
+            return badNumberMessage();
+        }
+        return "Observing \"" + game.gameName() + "\".\n";
+    }
+
+    private GameData gameFromNumber(String text) {
+        try {
+            int number = Integer.parseInt(text);
+            if (number >= 1 && number <= games.size()) {
+                return games.get(number - 1);
+            }
+        } catch (NumberFormatException ignored) {
+            // not a number; caller shows badNumberMessage()
+        }
+        return null;
+    }
+
+    private String badNumberMessage() {
+        if (games.isEmpty()) {
+            return "Run list first to see the game numbers.\n";
+        }
+        return "Pick a game number from 1 to " + games.size() + ".\n";
+    }
 }
