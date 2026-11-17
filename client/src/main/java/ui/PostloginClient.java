@@ -1,6 +1,7 @@
 package ui;
 
 import client.ServerFacade;
+import client.ResponseException;
 
 public class PostloginClient {
     private final ServerFacade facade;
@@ -34,5 +35,16 @@ public class PostloginClient {
                   logout - log out
                   help - show possible commands
                 """;
+    }
+    private String logout() {
+        try {
+            facade.logout(authToken);
+        } catch (ResponseException e) {
+            if (e.statusCode() == 0) {
+                return "Couldn't reach the server. Is it running?\n";
+            }
+        }
+        loggedOut = true;
+        return "Logged out.\n";
     }
 }
