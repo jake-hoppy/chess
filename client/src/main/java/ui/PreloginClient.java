@@ -1,6 +1,7 @@
 package ui;
 
 import client.ServerFacade;
+import client.ResponseException;
 
 public class PreloginClient {
     private final ServerFacade facade;
