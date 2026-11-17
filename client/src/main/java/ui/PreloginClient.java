@@ -70,4 +70,9 @@ public class PreloginClient {
                   help - show possible commands
                 """;
     }
+
+    public void reset() {
+        authToken = null;
+        username = null;
+    }
 }
