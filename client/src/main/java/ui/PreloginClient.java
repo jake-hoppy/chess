@@ -43,6 +43,24 @@ public class PreloginClient {
         }
     }
 
+    private String login(String[] tokens) {
+        if (tokens.length != 3) {
+            return "Usage: login <USERNAME> <PASSWORD>\n";
+        }
+        try {
+            var result = facade.login(tokens[1], tokens[2]);
+            authToken = result.authToken();
+            username = result.username();
+            return "Logged in as " + username + ".\n";
+        } catch (ResponseException e) {
+            return switch (e.statusCode()) {
+                case 401 -> "Wrong username or password.\n";
+                case 0 -> "Couldn't reach the server. Is it running?\n";
+                default -> "Login failed. Please try again.\n";
+            };
+        }
+    }
+
     public String help() {
         return """
                   register <USERNAME> <PASSWORD> <EMAIL> - create an account
