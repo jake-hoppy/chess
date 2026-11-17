@@ -146,7 +146,6 @@ public class PostloginClient {
                 return games.get(number - 1);
             }
         } catch (NumberFormatException ignored) {
-            // not a number; caller shows badNumberMessage()
         }
         return null;
     }
