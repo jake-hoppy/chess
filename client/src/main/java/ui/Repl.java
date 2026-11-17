@@ -25,6 +25,23 @@ public class Repl {
             }
             String line = scanner.nextLine();
 
+            if (postlogin == null) {
+                String result = prelogin.eval(line);
+                if (result.equals("quit")) {
+                    break;
+                }
+                System.out.print(result);
+                if (prelogin.authToken() != null) {
+                    postlogin = new PostloginClient(facade, prelogin.authToken(), prelogin.username());
+                    prelogin.reset();
+                    System.out.print(postlogin.help());
+                }
+            } else {
+                System.out.print(postlogin.eval(line));
+                if (postlogin.isLoggedOut()) {
+                    postlogin = null;
+                }
+            }
         }
         System.out.println("Goodbye!");
     }
