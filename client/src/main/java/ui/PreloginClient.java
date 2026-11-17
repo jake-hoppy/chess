@@ -5,9 +5,15 @@ import client.ResponseException;
 
 public class PreloginClient {
     private final ServerFacade facade;
+    private String authToken;
+    private String username;
+
+    public String authToken() { return authToken; }
+    public String username() { return username; }
 
     public PreloginClient(ServerFacade facade) {
         this.facade = facade;
+
     }
 
     /** Runs one command and returns the text to show the user. */
