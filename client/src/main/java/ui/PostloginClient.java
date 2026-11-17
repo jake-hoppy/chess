@@ -32,6 +32,8 @@ public class PostloginClient {
             case "logout" -> logout();
             case "create" -> create(tokens);
             case "list" -> list();
+            case "play" -> play(tokens);
+            case "observe" -> observe(tokens);
             default -> help();
         };
     }
