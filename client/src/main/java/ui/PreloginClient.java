@@ -22,6 +22,7 @@ public class PreloginClient {
         return switch (cmd) {
             case "quit" -> "quit";
             case "register" -> register(tokens);
+            case "login" -> login(tokens);
             default -> help();
         };
     }
