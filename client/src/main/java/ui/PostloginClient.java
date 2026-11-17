@@ -54,7 +54,6 @@ public class PostloginClient {
             if (e.statusCode() == 0) {
                 return "Couldn't reach the server. Is it running?\n";
             }
-            // any other error means the session is already invalid, so log out anyway
         }
         loggedOut = true;
         return "Logged out.\n";
