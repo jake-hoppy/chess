@@ -160,4 +160,10 @@ public class PostloginClient {
         }
         return "Pick a game number from 1 to " + games.size() + ".\n";
     }
+
+    private String startingBoard(ChessGame.TeamColor perspective) {
+        ChessBoard board = new ChessBoard();
+        board.resetBoard();
+        return BoardPrinter.draw(board, perspective);
+    }
 }
